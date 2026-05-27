@@ -65,7 +65,17 @@
     font-family:var(--gothic);font-weight:300;
     background:#050506;color:#fff;line-height:2.0;letter-spacing:0.045em;
     -webkit-font-smoothing:antialiased;display:flex;justify-content:center;
+    /* 日本語の泣き別れ（行末1文字残り）を防ぐ：文節単位で改行＋禁則 */
+    word-break:auto-phrase;line-break:strict;text-wrap:pretty;
   }
+  /* 文節改行に未対応のブラウザ向けフォールバック */
+  @supports not (word-break:auto-phrase){
+    h1,h2,h3,h4,p{word-break:normal;overflow-wrap:break-word;}
+  }
+  /* 見出し・本文は文節で揃える */
+  h1,h2,h3,h4,p,.pt,.words{word-break:auto-phrase;line-break:strict;}
+  /* 強制改行を句読点・記号の単位で意味を保つ補助クラス */
+  .nb{white-space:nowrap;}
   img{display:block;width:100%;height:100%;object-fit:cover;}
 
   /* 全面グレイン */
@@ -157,10 +167,10 @@
   .what__media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,12,0.2) 0%,rgba(20,17,12,0.0) 45%,var(--sumi) 100%);}
   .what__body{padding:0 32px;margin-top:-7vh;position:relative;z-index:2;text-align:center;}
   .what__body .eyebrow{color:var(--gold);display:block;margin-bottom:1.6em;}
-  .what__body h2{font-family:var(--mincho);font-weight:600;font-size:clamp(1.5rem,6.4vw,2rem);line-height:1.85;letter-spacing:0.05em;color:#f6f1e6;}
+  .what__body h2{font-family:var(--mincho);font-weight:600;font-size:clamp(1.4rem,5.8vw,1.8rem);line-height:1.85;letter-spacing:0.02em;color:#f6f1e6;}
   .what__body h2 .em{color:var(--gold-soft);position:relative;}
   .what__body h2 .em::after{content:"";position:absolute;left:0;right:0;bottom:-0.1em;height:1px;background:var(--gold);}
-  .what__body p{font-family:var(--mincho);font-weight:400;font-size:clamp(0.96rem,4.2vw,1.08rem);line-height:2.6;letter-spacing:0.07em;color:var(--cream-dim);margin-top:2.2em;}
+  .what__body p{font-family:var(--mincho);font-weight:400;font-size:clamp(0.92rem,4vw,1.02rem);line-height:2.5;letter-spacing:0.02em;color:var(--cream-dim);margin-top:2.2em;}
   .what__body p b{color:var(--cream);font-weight:600;}
   .tune{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:3em;font-family:var(--serif);font-style:italic;letter-spacing:0.16em;color:var(--gold-soft);font-size:0.92rem;}
   .tune .line{width:46px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
@@ -275,16 +285,6 @@
       <b>——安売りをやめた店だけが、生き残る時代へ。</b>
     </p>
 
-    <div class="hero__video reveal d2">
-      <div class="video">
-        <!-- 動画差し替え：LP本編動画（痛み→気づき→共感→登録）。サムネは経営者の表情。 -->
-        <img src="images/owner.jpg" alt="店に立つ店主">
-        <div class="play"></div>
-        <span class="vlabel">▶ 90秒で分かる、価格競争から抜ける道</span>
-      </div>
-    </div>
-    <p class="hero__videocap reveal d3">音が出ます。少しだけ、聴いてみてください。</p>
-
     <div class="hero__cta reveal d3">
       <a href="#cta" class="btn-red">続きをLINEで受け取る<span class="ar">→</span></a>
       <p class="cta-note">登録無料 ／ 特典「7つの問い」を即お渡し</p>
@@ -347,12 +347,15 @@
     </div>
     <div class="what__body">
       <span class="eyebrow reveal d1">value tuning ― 価値調律</span>
-      <h2 class="reveal d1">お客様の<span class="em">本当の欲求</span>に、<br>あなたの価値を<span class="em">合わせ直す</span>。</h2>
+      <h2 class="reveal d1">眠っている<span class="em">価値</span>を、<br><span class="em">覚醒</span>させる。</h2>
       <p class="reveal d2">
-        お客様が本当に求めているものを聴き、<br>
-        自店の価値を<b>調律（再定義）</b>する。<br>
-        それを<b>言葉・空間・価格</b>に翻訳して、響かせる。<br>
-        値下げの逆——<b>価値を上げて、共感で選ばれる</b>状態をつくる技術です。
+        お客様が何を求めているか、あなたはもう知っている。<br>
+        そして、あなたの店には<b>すでに価値がある</b>。眠っているだけ。<br>
+        その魅力を<b>覚醒</b>させ、言葉・空間・価格に翻訳して、響かせる。<br>
+        値下げの逆——<b>価値を上げて、共感で選ばれる</b>店へ。
+      </p>
+      <p class="reveal d2" style="margin-top:1.4em;font-size:clamp(0.86rem,3.7vw,0.96rem);color:var(--gold-soft);letter-spacing:0.04em;">
+        ＝ 店の魅力を呼び覚ます、価値調律プロジェクト。
       </p>
       <div class="tune reveal d2"><span class="line"></span>TUNE, NOT DISCOUNT<span class="line"></span></div>
     </div>
@@ -393,25 +396,32 @@
       <span class="eyebrow reveal">the difference</span>
       <h2 class="reveal d1">同じ痛みに、<br><span class="em">別次元</span>の答えを。</h2>
     </div>
-    <div class="vs">
-      <div class="vs__col them reveal d1">
-        <p class="label">よくある集客サービス</p>
-        <p class="pt">SNS攻略・集客ノウハウ</p>
-        <p class="pt">「より多く、より安く」</p>
-        <p class="pt">皆が同じ土俵で殴り合う</p>
-        <p class="pt">疲弊は、終わらない</p>
-      </div>
-      <div class="vs__col us reveal d2">
-        <p class="label">VALUE TUNING</p>
-        <p class="pt">価値を再定義し、翻訳する</p>
-        <p class="pt">「安さ」の土俵から降りる</p>
-        <p class="pt">世界観で、抜ける</p>
-        <p class="pt">共感で、選ばれ続ける</p>
-      </div>
+    <div class="edge__them reveal d1">
+      <p class="k">世の中の「集客」サービスは、</p>
+      <p class="words">
+        SNS攻略。集客ノウハウ。<br>
+        <span class="dim">「より多く、より安く」</span>。<br>
+        <span class="fight">――皆が、同じ土俵で殴り合っている。</span>
+      </p>
     </div>
-    <p class="edge__tail reveal d2">
+
+    <div class="edge__pivot reveal d2">
+      <span class="ln"></span><span class="w">だから</span><span class="ln"></span>
+    </div>
+
+    <div class="edge__us reveal d2">
+      <p class="k">VALUE TUNING is</p>
+      <p class="big">その戦いから、<br><em>降りる</em>。</p>
+      <p class="sub">
+        安さで競うのをやめ、<br>
+        "世界観"で選ばれる場所へ移る。<br>
+        ――それが、別次元の答え。
+      </p>
+    </div>
+
+    <p class="edge__tail reveal d3">
       入口は<span class="em">機能</span>、中身は<span class="em">情緒</span>。<br>
-      その"ねじれ"は、簡単には真似できない。
+      その"ねじれ"こそが、誰にも真似できない壁になる。
     </p>
   </section>
 
@@ -426,9 +436,9 @@
       <span class="badge">LINE登録 即プレゼント</span>
       <p class="title">自店の価値を見つける<br><span class="gold">「7つの問い」</span></p>
       <p class="desc">
-        答えていくだけで、あなたの店が本当に<br>
-        売っているものが、輪郭を持ち始める。<br>
-        価値調律の、最初の一歩です。
+        答えていくだけで、眠っていた<br>
+        あなたの店の魅力が、輪郭を持ち始める。<br>
+        覚醒への、最初の一歩です。
       </p>
     </div>
 
